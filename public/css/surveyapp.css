@@ -1,0 +1,23 @@
+.float-left{
+	float: left;
+}
+.float-right{
+	float: right;
+}
+.clear-both{
+	clear: both;
+}
+
+.top-spacing{
+	margin-top: 10px;
+}
+.before-form-el{
+	margin: 20px 0;
+}
+.after-form-el{
+	margin: 10px;
+}
+.collapsible-qdetails{
+	margin: 5px;
+	padding: 10px;
+}
