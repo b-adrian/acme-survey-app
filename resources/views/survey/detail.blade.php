@@ -55,6 +55,13 @@
                         <label for="datepicker">Provide answer</label>
                       </div>
                     </div>
+                    @elseif($question->question_type === 'number')
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input id="number" type="number" class="materialize-input">
+                        <label for="number">Provide answer</label>
+                      </div>
+                    </div>
                     @elseif($question->question_type === 'radio')
                       @foreach($question->option_name as $key=>$value)
                         <p >
@@ -71,8 +78,11 @@
                     @elseif($question->question_type === 'checkbox')
                       @foreach($question->option_name as $key=>$value)
                       <p >
-                        <input type="checkbox" id="{{ $key }}" />
-                        <label for="{{$key}}">{{ $value }}</label>
+                        <label for="{{$key}}">
+                          <input type="checkbox" id="{{ $key }}" />
+                          <span>{{ $value }}</span>
+                        </label>
+                        
                       </p>
                       @endforeach
                     @endif
@@ -93,6 +103,7 @@
             <select class="browser-default" name="question_type" id="question_type">
               <option value="text" disabled selected>Choose your option</option>
               <option value="text">Text</option>
+              <option value="number">Number</option>
               <option value="textarea">Textarea</option>
               <option value="checkbox">Checkbox</option>
               <option value="radio">Radio Buttons</option>

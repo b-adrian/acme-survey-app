@@ -27,6 +27,13 @@
                       <label for="datepicker">Answer</label>
                     </div>
                   </div>
+                  @elseif($question->question_type === 'number')
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="number" type="number" name="{{ $question->id }}[answer]">
+                      <label for="number">Answer</label>
+                    </div>
+                  </div>
                 @elseif($question->question_type === 'textarea')
                   <div class="input-field col s12">
                     <textarea id="textarea1" class="materialize-textarea" name="{{ $question->id }}[answer]" {{ $question->is_mandatory == '1' ? 'required': '' }}></textarea>
@@ -52,8 +59,11 @@
                 @elseif($question->question_type === 'checkbox')
                   @foreach($question->option_name as $key=>$value)
                   <p >
-                    <input type="checkbox" id="checkboxes{{ $key }}" value="{{ $value }}" name="{{ $question->id }}[answer]" />
-                    <label for="checkboxes{{$key}}">{{ $value }}</label>
+                    <label for="checkboxes{{$key}}">
+                      <input type="checkbox" id="checkboxes{{ $key }}" value="{{ $value }}" name="{{ $question->id }}[answer]" />
+                      <span>{{ $value }}</span>
+                    </label>
+                    
                   </p>
                   @endforeach
                 @endif 
