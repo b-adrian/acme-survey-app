@@ -36,5 +36,5 @@ Route::post('/survey/create', 'SurveyController@create')->name('create.survey');
 Route::post('/survey/{survey}/questions', 'QuestionController@store')->name('store.question');
  
 Route::get('/question/{question}/edit', 'QuestionController@edit')->name('edit.question');
-Route::patch('/question/{question}/update', 'QuestionController@update')->name('update.question');
+Route::get('/question/{question}/update', 'QuestionController@update')->name('update.question');
 Route::auth();

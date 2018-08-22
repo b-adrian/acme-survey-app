@@ -21,3 +21,11 @@
 	margin: 5px;
 	padding: 10px;
 }
+.field-edit{
+	position: absolute;
+	right: 50px;
+}
+.editable-text:hover{
+	color: #555;
+	text-decoration: underline;
+}

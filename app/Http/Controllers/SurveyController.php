@@ -47,7 +47,9 @@ class SurveyController extends Controller
 
 	public function edit(Survey $survey) 
 	{
-		return view('survey.edit', compact('survey'));
+		$survey->load('user.questions.answers');
+		$survey['nb_answers'] = count($survey->answers);
+		return view('survey.detail', compact('survey'));
 	}
 
 	# edit survey

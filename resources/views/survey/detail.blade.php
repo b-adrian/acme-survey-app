@@ -35,97 +35,33 @@
       <ul class="collapsible" data-collapsible="expandable">
           @forelse ($survey->questions as $question)
           <li style="box-shadow:none;">
-            <div class="collapsible-header">{{ $question->title }} <a href="/question/{{ $question->id }}/edit" style="float:right;">Edit</a></div>
+            <div class="collapsible-header" data-question-id="{{ $question->id }}"><span>{{$question->is_mandatory == '1' ? '*' : ''}}</span><span class="js-title-edit editable-text title-edit">{{ $question->title }}</span><span class="js-field-edit editable-text field-edit"> ({{ ucfirst($question->question_type) }})</span></div>
+            @if($survey->nb_answers == 0) 
             <div class="collapsible-body">
-              <div class="collapsible-qdetails">
-                  {!! Form::open() !!}
-                    @if($question->question_type === 'text')
-                      {{ Form::text('title')}}
-                    @elseif($question->question_type === 'textarea')
-                    <div class="row">
-                      <div class="input-field col s12">
-                        <textarea id="textarea1" class="materialize-textarea"></textarea>
-                        <label for="textarea1">Provide answer</label>
-                      </div>
-                    </div>
-                    @elseif($question->question_type === 'date')
-                    <div class="row">
-                      <div class="input-field col s12">
-                        <input id="datepicker" class="materialize-input js-datepicker">
-                        <label for="datepicker">Provide answer</label>
-                      </div>
-                    </div>
-                    @elseif($question->question_type === 'number')
-                    <div class="row">
-                      <div class="input-field col s12">
-                        <input id="number" type="number" class="materialize-input">
-                        <label for="number">Provide answer</label>
-                      </div>
-                    </div>
-                    @elseif($question->question_type === 'radio')
-                      @foreach($question->option_name as $key=>$value)
-                        <p >
-                          <input type="radio" id="{{ $key }}" />
-                          <label for="{{ $key }}">{{ $value }}</label>
-                        </p>
-                      @endforeach
-                    @elseif($question->question_type === 'select')
-                      @foreach($question->option_name as $key=>$value)
-                        <select >
-                          <option value="{{ $key }}">{{ $value }}</option>
-                        </select>
-                      @endforeach
-                    @elseif($question->question_type === 'checkbox')
-                      @foreach($question->option_name as $key=>$value)
-                      <p >
-                        <label for="{{$key}}">
-                          <input type="checkbox" id="{{ $key }}" />
-                          <span>{{ $value }}</span>
-                        </label>
-                        
-                      </p>
-                      @endforeach
-                    @endif
-                    
-                  {!! Form::close() !!}
-              </div>
+              @include('survey.qdetails', ['question' => $question])
             </div>
+            @endif 
+            
           </li>
           @empty
             <span style="padding:10px;">Nothing to show. Add questions below.</span>
           @endforelse
       </ul>
+      @if($survey->nb_answers == 0)
       <h2 class="flow-text">Add Question</h2>
       <form method="POST" action="{{ $survey->id }}/questions" id="boolean">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="row">
-          <div class="input-field col s12">
-            <select class="browser-default" name="question_type" id="question_type">
-              <option value="text" disabled selected>Choose your option</option>
-              <option value="text">Text</option>
-              <option value="number">Number</option>
-              <option value="textarea">Textarea</option>
-              <option value="checkbox">Checkbox</option>
-              <option value="radio">Radio Buttons</option>
-              <option value="select">Dropdown</option>
-              <option value="date">Date</option>
-            </select>
-          </div>                
-          <div class="input-field col s12">
-            <input name="title" id="title" type="text">
-            <label for="title">Question</label>
-          </div>  
-          <div class="row">
-            <label><input type="checkbox" value="1" name="is_mandatory"><span>Is mandatory?</span></label>
-          </div>
-          <!-- this part will be chewed by script in init.js -->
-          <span class="form-g"></span>
+          @include('survey.qdetails', ['editable' => '0'])
 
           <div class="input-field col s12">
           <button class="btn waves-effect waves-light">Submit</button>
           </div>
         </div>
-        </form>
+      </form>
+      @else
+        @include('answer.list')
+      @endif
     </div>
   </div>
 @stop

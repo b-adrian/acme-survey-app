@@ -21,8 +21,9 @@ class QuestionController extends Controller
     {
 		$arr = $request->all();
 		$arr['user_id'] = Auth::id();
-
-		$survey->questions()->create($arr);
+        if($arr['title'] != 'null' && !empty($arr['title'])){
+            $survey->questions()->create($arr);
+        }		
 		return back();
     }
 
@@ -34,8 +35,12 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question) 
     {
 
-		$question->update($request->all());
-		return redirect()->action('SurveyController@detail_survey', [$question->survey_id]);
+		$question->update($request->only(['title', 'question_type', 'is_mandatory', 'option_name']));
+		echo json_encode(array(
+            'title' => $question->title,
+            'question_type' => $question->question_type,
+            'is_mandatory' => $question->is_mandatory
+        ));
     }
 
 }

@@ -23,13 +23,41 @@ $(document).ready(function() {
 		$(".form-g").append(material);
 	});
 	// allow for more options if radio or checkbox is enabled
-	$(document).on('change', '#question_type', function() {
-		var selected_option = $('#question_type :selected').val();
+	$(document).on('change', '.js-question-type', function() {
+		var selected_option = $(this).val();
 		if (selected_option === "radio" || selected_option === "checkbox" || selected_option === "select") {
-		  $(".form-g").html(material);
+		  $(this).closest('.qd-subview-container').parent().find('.form-g').html(material);
 		} else {
 		  $(".input-g").remove();
 		}
 	});
 	$( ".js-datepicker" ).datepicker();
+	$(".js-edit-field").on('click', function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		var rootEl = $(this).closest('.collapsible-body');
+
+		var selected_option = rootEl.find(".js-question-type").val();
+		var optionNames = [];
+		var data = {
+			is_mandatory: rootEl.find(".js-is-mandatory").prop('checked') == true ? '1' : '0',
+			question_type: selected_option,
+			title: rootEl.find(".js-title").val()
+		}
+		console.log(rootEl.find(".js-title"))
+		if (selected_option === "radio" || selected_option === "checkbox" || selected_option === "select") {
+			rootEl.find('input[name="option_name[]"]').each(function(){
+				optionNames.push($(this).val());
+			})
+			data['option_name'] = optionNames;
+		}
+		$.ajax({
+			url: '/question/' + rootEl.find('.qd-subview-container').data('question-id') + '/update',
+			data: data,
+			method: 'get',
+			dataType: 'json',
+			success: function(success){
+			}
+		});
+	})
 });
