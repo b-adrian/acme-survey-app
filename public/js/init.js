@@ -57,6 +57,14 @@ $(document).ready(function() {
 			method: 'get',
 			dataType: 'json',
 			success: function(success){
+				$(".collapsible-header.active").trigger('click');
+				$('<div style="background: #26a69a;color: white;position: absolute; top: 100px; right: 45%;padding: 10px;" id="msgBox">Question has been updated</div>').
+					appendTo($('body'));
+			 	setTimeout(function(){
+			 		$("#msgBox").fadeOut('slow', function(){
+						$(this).remove();
+			 		});
+			 	}, 1000);
 			}
 		});
 	})

@@ -1,15 +1,15 @@
-<div class="input-field col s12 qd-subview-container" data-question-id="{{ $question->id }}">
+<div class="input-field col s12 qd-subview-container" data-question-id="{{ isset($question) ? $question->id : ''  }}">
   <select class="browser-default js-question-type" name="question_type">
     @if(!isset($editable))
       <option value="text" disabled selected>Choose your option</option>
     @endif
-    <option value="text" {{!isset($editable) && $question->question_type == 'text' ? 'selected' : ''}}>Text</option>
-    <option value="number" {{!isset($editable) && $question->question_type == 'number' ? 'selected' : ''}}>Number</option>
-    <option value="textarea" {{!isset($editable) && $question->question_type == 'textarea' ? 'selected' : ''}}>Textarea</option>
-    <option value="checkbox" {{!isset($editable) && $question->question_type == 'checkbox' ? 'selected' : ''}}>Checkbox</option>
-    <option value="radio" {{!isset($editable) && $question->question_type == 'radio' ? 'selected' : ''}}>Radio Buttons</option>
-    <option value="select" {{!isset($editable) && $question->question_type == 'select' ? 'selected' : ''}}>Dropdown</option>
-    <option value="date" {{!isset($editable) && $question->question_type == 'date' ? 'selected' : ''}}>Date</option>
+    <option value="text" {{!isset($editable) && isset($question) && $question->question_type == 'text' ? 'selected' : ''}}>Text</option>
+    <option value="number" {{!isset($editable) && isset($question) && $question->question_type == 'number' ? 'selected' : ''}}>Number</option>
+    <option value="textarea" {{!isset($editable) && isset($question) && $question->question_type == 'textarea' ? 'selected' : ''}}>Textarea</option>
+    <option value="checkbox" {{!isset($editable) && isset($question) && $question->question_type == 'checkbox' ? 'selected' : ''}}>Checkbox</option>
+    <option value="radio" {{!isset($editable) && isset($question) && $question->question_type == 'radio' ? 'selected' : ''}}>Radio Buttons</option>
+    <option value="select" {{!isset($editable) && isset($question) && $question->question_type == 'select' ? 'selected' : ''}}>Dropdown</option>
+    <option value="date" {{!isset($editable) && isset($question) && $question->question_type == 'date' ? 'selected' : ''}}>Date</option>
   </select>
 </div>                
 <div class="input-field col s12">
@@ -21,7 +21,7 @@
 </div>
 <!-- this part will be chewed by script in init.js -->
 <span class="form-g">
-  @if(!isset($editable) && (in_array($question->question_type, array('select', 'radio', 'checkbox'))))
+  @if(!isset($editable) && isset($question) && (in_array($question->question_type, array('select', 'radio', 'checkbox'))))
     @foreach ($question->option_name as $option)
       <div class="input-field col input-g s12">
         <input name="option_name[]" id="option_name[]" type="text" value="{{ $option }}">

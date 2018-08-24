@@ -19,7 +19,7 @@
 
 // Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'SurveyController@home');
- 
+Route::get('/home', 'SurveyController@home');
 Route::get('/survey/new', 'SurveyController@new_survey')->name('new.survey');
 Route::get('/survey/{survey}', 'SurveyController@detail_survey')->name('detail.survey');
 Route::get('/survey/view/{survey}', 'SurveyController@view_survey')->name('view.survey');
@@ -34,7 +34,9 @@ Route::post('/survey/create', 'SurveyController@create')->name('create.survey');
  
 // Questions related
 Route::post('/survey/{survey}/questions', 'QuestionController@store')->name('store.question');
- 
+
 Route::get('/question/{question}/edit', 'QuestionController@edit')->name('edit.question');
 Route::get('/question/{question}/update', 'QuestionController@update')->name('update.question');
 Route::auth();
+//logout route
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
